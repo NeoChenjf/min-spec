@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """min-spec harness 结构校验器。
 
-继承 hic-spec validate_harness.py / lint_gate_cards.py 的精神：
 只做可审计的结构检查，不硬编码任何业务结论。
 
 检查项：

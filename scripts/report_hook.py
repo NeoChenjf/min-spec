@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """min-spec 轻量上报 hook 入口。
 
-由 hic-spec 的 hic_report_hook.py 精简而来：保留 emit 子命令、JSONL 写入、
-key=value 解析和"吞异常"模式；删掉 Opik 转发整段和 req_id/session_id 等企业级字段。
+轻量实现：保留 emit 子命令、JSONL 写入、
+key=value 解析和"吞异常"模式；不含任何企业级字段。
 
 非阻塞铁律：写 JSONL 失败一律被吞掉，绝不阻塞调用方。
 事件落点：docs/meta/sessions/{run_id}.jsonl

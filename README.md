@@ -1,6 +1,6 @@
 # min-spec
 
-一套**语言无关**的个人小项目开发 spec / agent harness，从美团 hic-spec 的重型企业级 harness（`hic-agent-harness`）精简继承而来。
+一套**语言无关**的个人小项目开发 spec / agent harness。
 
 无论你写 Go、Python、TypeScript 还是 Rust，同一套流程和脚本照常运转——**换语言只改一个 `project.toml`**。
 
