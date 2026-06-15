@@ -1,0 +1,16 @@
+{
+  "schema": "min-spec-state-v1",
+  "version": "0.1.0",
+  "required": ["run_id", "status", "current_stage", "stages"],
+  "properties": {
+    "run_id": { "type": "string" },
+    "status": { "enum": ["initialized", "running", "blocked", "completed", "failed"] },
+    "current_stage": { "enum": ["plan", "build", "verify", "report"] },
+    "stages": { "type": "object" },
+    "gate": {
+      "type": ["object", "null"],
+      "description": "最近一次门禁裁决摘要：{decision, evidence_path}"
+    },
+    "artifacts": { "type": "array" }
+  }
+}

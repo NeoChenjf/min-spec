@@ -1,0 +1,13 @@
+# 运行态：单次运行的易变状态，不进版本库
+.harness/
+
+# 系统/编辑器杂物
+.DS_Store
+*.swp
+__pycache__/
+*.pyc
+
+# 留痕证据（docs/meta/sessions、docs/meta/gates）默认进库作为开发轨迹，
+# 如不想进库可取消下面两行注释：
+# docs/meta/sessions/
+# docs/meta/gates/

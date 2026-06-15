@@ -1,0 +1,37 @@
+{
+  "schema": "min-spec-workflow-dag-v1",
+  "version": "0.1.0",
+  "stages": {
+    "plan": {
+      "name": "理解需求并定方案",
+      "next": ["build"],
+      "checkpoint": "mandatory_review",
+      "required_outputs": ["plan_note"],
+      "writes": ["docs/meta/sessions/{run_id}.jsonl"]
+    },
+    "build": {
+      "name": "实现",
+      "next": ["verify"],
+      "checkpoint": "none",
+      "required_outputs": ["changeset"],
+      "writes": ["docs/meta/sessions/{run_id}.jsonl"]
+    },
+    "verify": {
+      "name": "门禁验证",
+      "next": ["report"],
+      "checkpoint": "mandatory_review",
+      "required_outputs": ["gate_card"],
+      "writes": [
+        "docs/meta/gates/{run_id}-gate.md",
+        "docs/meta/sessions/{run_id}.jsonl"
+      ]
+    },
+    "report": {
+      "name": "小结",
+      "next": [],
+      "checkpoint": "artifact_review",
+      "required_outputs": ["summary"],
+      "writes": ["docs/meta/sessions/{run_id}.jsonl"]
+    }
+  }
+}

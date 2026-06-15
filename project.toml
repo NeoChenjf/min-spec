@@ -1,0 +1,12 @@
+# project.toml —— min-spec 真相源。门禁（scripts/gate.py）只读这里，不认语言。
+# 换语言/换命令只改这一个文件。每条命令只看退出码（0=过，非零=挂）。
+# 缺省的门禁会被跳过（不报错）。新项目可跑 `python3 scripts/init.py` 自动探测生成。
+
+[project]
+name = "min-spec"
+run = "python3 scripts/validate.py"   # 可选，给人看，门禁不依赖
+
+[gates]
+# min-spec 本仓是一套 spec/脚本，用自带校验器当 test 门禁。
+test = "python3 scripts/validate.py"
+# build / lint 未声明 → 自动跳过。

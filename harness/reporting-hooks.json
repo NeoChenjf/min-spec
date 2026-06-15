@@ -1,0 +1,47 @@
+{
+  "schema": "min-spec-reporting-hooks-v1",
+  "version": "0.1.0",
+  "note": "轻量 hook 注册表。非阻塞原则：留痕失败不挡业务；唯一 strict 的是 git.pre_commit（它跑门禁，是门禁不是留痕）。",
+  "sink": "docs/meta/sessions/{run_id}.jsonl",
+  "categories": {
+    "git_lifecycle": {
+      "hooks": [
+        {
+          "id": "git.pre_commit",
+          "event": "pre_commit",
+          "trigger": ".githooks/pre-commit",
+          "blocking": "strict",
+          "action": "run_quality_gate",
+          "runs": "scripts/gate.py"
+        }
+      ]
+    },
+    "pipeline_stage": {
+      "hooks": [
+        {
+          "id": "stage.enter",
+          "event": "stage_enter",
+          "blocking": "never",
+          "action": "append_jsonl"
+        },
+        {
+          "id": "stage.done",
+          "event": "stage_done",
+          "blocking": "never",
+          "action": "append_jsonl"
+        }
+      ]
+    },
+    "quality_gate": {
+      "hooks": [
+        {
+          "id": "quality.gate_run",
+          "event": "gate_run",
+          "blocking": "never",
+          "action": "append_jsonl",
+          "emitted_by": "scripts/gate.py"
+        }
+      ]
+    }
+  }
+}

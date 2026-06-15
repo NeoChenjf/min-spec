@@ -1,0 +1,4 @@
+[project]
+name = "hello-node"
+[gates]
+test = "node -e 'process.exit(0)'"

@@ -1,0 +1,4 @@
+[project]
+name = "hello-py"
+[gates]
+test = "python3 -c 'import sys; sys.exit(0)'"

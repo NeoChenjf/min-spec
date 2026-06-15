@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# min-spec 唯一的 git 门禁入口。
+# 它跑 scripts/gate.py——这是门禁不是留痕，非零退出码会故意拦下提交。
+# 启用：git config core.hooksPath .githooks
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+exec python3 "$ROOT/scripts/gate.py"

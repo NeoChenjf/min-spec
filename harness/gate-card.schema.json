@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "min-spec Gate Card",
+  "type": "object",
+  "required": ["frontmatter", "gates", "output_contract"],
+  "properties": {
+    "frontmatter": {
+      "type": "object",
+      "required": ["gate_id", "version", "phase", "generated_at", "decision"],
+      "properties": {
+        "gate_id": { "type": "string" },
+        "version": { "type": "string" },
+        "phase": { "enum": ["verify"] },
+        "generated_at": { "type": "string" },
+        "decision": { "enum": ["pass", "block", "skip"] }
+      }
+    },
+    "gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["gate", "status"],
+        "properties": {
+          "gate": { "enum": ["build", "test", "lint"] },
+          "status": { "enum": ["pass", "fail", "skipped"] },
+          "exit_code": { "type": ["integer", "null"] },
+          "cmd": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "output_contract": {
+      "type": "object",
+      "required": ["decision", "evidence_path", "blocking_reason", "next_action"],
+      "properties": {
+        "decision": { "enum": ["pass", "block", "skip"] },
+        "evidence_path": { "type": "string" },
+        "blocking_reason": { "type": ["string", "null"] },
+        "next_action": { "type": ["string", "null"] }
+      }
+    }
+  }
+}
