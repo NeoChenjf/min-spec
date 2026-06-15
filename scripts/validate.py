@@ -4,7 +4,8 @@
 只做可审计的结构检查，不硬编码任何业务结论。
 
 检查项：
-  1. 各契约文件 / 脚本 / git hook 存在
+  1. 各契约文件 / 执行手册 / 模板 / 脚本 / git hook 存在
+     （含 harness/AGENT.md、harness/plan-note-template.md）
   2. workflow-dag.json 自洽（每 stage 字段齐全、next 指向存在、恰一终点）
   3. state-schema.json 的 current_stage 枚举 == DAG 的 stage 列表
   4. reporting-hooks.json 三类齐全、git.pre_commit=strict 其余 never
@@ -22,6 +23,8 @@ HARNESS = REPO_ROOT / "harness"
 
 REQUIRED_FILES = [
     "harness/spec.md",
+    "harness/AGENT.md",
+    "harness/plan-note-template.md",
     "harness/workflow-dag.json",
     "harness/state-schema.json",
     "harness/gate-card.schema.json",

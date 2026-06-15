@@ -58,3 +58,32 @@ python3 scripts/validate.py
 # 4. 手动跑一次门禁
 python3 scripts/gate.py
 ```
+
+## 七、Agent 执行清单（每次需求必跑）
+
+接到需求后，按以下清单逐项执行。完整步骤和命令见 `harness/AGENT.md`。
+
+```
+[ ] plan 阶段
+    [ ] 读懂需求，列出假设，用户确认
+    [ ] 分析影响面（impact-analyzer 角色）
+    [ ] 写 plan_note（用 harness/plan-note-template.md）
+    [ ] ⚠️  mandatory_review：用户确认 plan_note 后才能进入 build
+
+[ ] build 阶段
+    [ ] 按 plan_note 范围写代码
+    [ ] 检查 git diff，无超范围改动（scope-guard 角色）
+    [ ] 留痕（report_hook.py emit）
+
+[ ] verify 阶段
+    [ ] python3 scripts/gate.py
+    [ ] gate card decision=pass
+    [ ] ⚠️  mandatory_review：用户确认 gate card
+
+[ ] report 阶段
+    [ ] 输出 summary（做了什么 / 改了哪些文件 / gate 结论）
+    [ ] git commit（pre-commit hook 自动再跑一次门禁）
+```
+
+> **两个不可跳过的强制人审点**：plan 方案确认 + verify gate card 确认。
+> 其余阶段 Agent 可自动推进。
