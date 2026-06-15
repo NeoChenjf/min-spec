@@ -1,11 +1,11 @@
 {
   "schema": "min-spec-state-v1",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "required": ["run_id", "status", "current_stage", "stages"],
   "properties": {
     "run_id": { "type": "string" },
     "status": { "enum": ["initialized", "running", "blocked", "completed", "failed"] },
-    "current_stage": { "enum": ["plan", "build", "verify", "report"] },
+    "current_stage": { "enum": ["clarify", "plan", "build", "verify"] },
     "stages": { "type": "object" },
     "gate": {
       "type": ["object", "null"],

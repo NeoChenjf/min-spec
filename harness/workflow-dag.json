@@ -1,37 +1,41 @@
 {
   "schema": "min-spec-workflow-dag-v1",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "stages": {
+    "clarify": {
+      "name": "需求澄清",
+      "next": ["plan"],
+      "checkpoint": "mandatory_review",
+      "required_outputs": ["clarification"],
+      "skill": "skill/clarify/SKILL.md",
+      "writes": ["docs/meta/requirements/{run_id}-clarification.md"]
+    },
     "plan": {
-      "name": "理解需求并定方案",
+      "name": "实现计划拆分",
       "next": ["build"],
       "checkpoint": "mandatory_review",
-      "required_outputs": ["plan_note"],
-      "writes": ["docs/meta/sessions/{run_id}.jsonl"]
+      "required_outputs": ["impl_plan"],
+      "skill": "skill/impl-plan/SKILL.md",
+      "writes": ["docs/meta/requirements/{run_id}-impl-plan.md"]
     },
     "build": {
-      "name": "实现",
+      "name": "Phase 编码循环",
       "next": ["verify"],
-      "checkpoint": "none",
+      "checkpoint": "phase_review",
       "required_outputs": ["changeset"],
+      "skill": "skill/impl/SKILL.md",
+      "review_skill": "skill/review/SKILL.md",
       "writes": ["docs/meta/sessions/{run_id}.jsonl"]
     },
     "verify": {
       "name": "门禁验证",
-      "next": ["report"],
+      "next": [],
       "checkpoint": "mandatory_review",
       "required_outputs": ["gate_card"],
       "writes": [
         "docs/meta/gates/{run_id}-gate.md",
         "docs/meta/sessions/{run_id}.jsonl"
       ]
-    },
-    "report": {
-      "name": "小结",
-      "next": [],
-      "checkpoint": "artifact_review",
-      "required_outputs": ["summary"],
-      "writes": ["docs/meta/sessions/{run_id}.jsonl"]
     }
   }
 }
