@@ -44,6 +44,8 @@
 
 3 个角色（`impact-analyzer` / `scope-guard` / `plan-reviewer`），职责与"必须产出证据路径"的铁律见 `harness/agents/README.md`。
 
+跨阶段开发价值观（L1）与绑定阶段的操作规则（L2）见 `harness/knowledge/`——子 Agent 开工前先读，作为做事的标尺。
+
 ## 六、起步
 
 ```bash

@@ -15,6 +15,8 @@ Orchestrator 会在你的 prompt 中传入：
 - 验证命令：（从 impl-plan 取）
 ```
 
+开工前先读 `harness/knowledge/L1-principles.md`（全部通用原则，尤其 P2 按需操作 / P3 最小改动 / P4 新增优于修改 / P8 前置代码阅读）+ `harness/knowledge/L2-stage-rules.md` 中适用阶段含 `build` 的条目（S3 问题记录 / S4 审查清单 / S5 环境记录）。
+
 ---
 
 ## 执行步骤

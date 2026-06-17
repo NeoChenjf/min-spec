@@ -323,3 +323,4 @@ cat docs/meta/gates/{run_id}-gate.md
 4. **两个强制人审点**：clarification 确认 + impl-plan 确认，不可跳过
 5. **非阻塞留痕**：留痕失败不影响主流程
 6. **复盘只沉淀不返工**：Stage 5 只读留痕 + 追加经验库，绝不改代码或正式产物；经验库只追加不覆盖
+7. **价值观前置**：每次 spawn 子 Agent 时，在 prompt 里附一行——「先读 `harness/knowledge/L1-principles.md`（全部通用原则）；本阶段在 `harness/knowledge/L2-stage-rules.md` 有对应条目则一并读」，让子 Agent 带着开发价值观与阶段 checklist 工作

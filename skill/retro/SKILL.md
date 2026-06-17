@@ -16,6 +16,7 @@
 - `docs/meta/requirements/{run_id}-impl-plan.md` —— 当初的 Phase 拆分
 - 各 Phase review 报告 / fix 记录（如 orchestrator 留在 jsonl 或会话里）
 - `docs/meta/knowledge/lessons.md` —— 已有经验库（读它，避免沉淀重复经验）
+- `harness/knowledge/L1-principles.md` + `harness/knowledge/L2-stage-rules.md` + `harness/knowledge/README.md`（读它们了解已有通用知识与**晋升三准则**，用于判断本次哪些 lesson 够格晋升）
 
 ---
 
@@ -66,7 +67,7 @@
 把 Step 3 选中的每条经验，按以下格式**追加到文件末尾**（一条一个块）：
 
 ```markdown
-## L-{run_id}-{序号} ｜适用阶段：{clarify|plan|build|verify}
+## L-{run_id}-{序号} ｜适用阶段：{clarify|plan|build|verify|retrospect}
 - **教训**：（一句话，命令式，能直接当 checklist 用）
 - **由来**：（来自哪次现象，一句话）
 - **来源**：{run_id}
@@ -76,6 +77,20 @@
 > 这里的「适用阶段」标签就是落点路由依据。本轮**不做**自动回写，只沉淀到 lessons.md。
 
 去重：写之前读一遍 lessons.md，已有等价教训就不重复入库（可在 retro.md 里注明"已存在，不重复"）。
+
+### Step 4.5：标记晋升候选（lessons → L1/L2，只标记不写入）
+
+读 `harness/knowledge/README.md` 的**晋升三准则**，对本次沉淀的 lesson 逐条判断是否够格晋升成跨项目通用知识：
+
+1. **跨项目成立**：去掉所有框架/技术栈专有名词后仍站得住。
+2. **复现 ≥ 2 次 或 后果严重**。
+3. **不与现有 L1/L2 重复**（已读过 `L1-principles.md` / `L2-stage-rules.md`）。
+
+三条全满足的，在 `{run_id}-retro.md` 末尾新增一节「## 晋升候选」，每条列出：建议归 **L1** 还是 **L2**、若 L2 则标注**适用阶段**、一句话理由。
+
+> **铁律**：retrospect 阶段**只标记候选、只写进 retro.md**，**绝不**直接写 `harness/knowledge/`。
+> 晋升是跨项目动作，必须由人工确认后才改写成 `P{n}`/`S{n}` 追加进知识库（见 README 的「晋升动作」）。
+> 没有够格的候选则写"本次无晋升候选"。
 
 ### Step 5：留痕
 ```bash
@@ -96,6 +111,7 @@ python3 scripts/report_hook.py emit \
 - [ ] `docs/meta/retro/{run_id}-retro.md` 已写好（含「踩的坑」与「沉淀条目」两节）
 - [ ] 选中的经验已**追加**进 `docs/meta/knowledge/lessons.md`（无可沉淀则 retro 里写明"无新增经验"）
 - [ ] 经验库原有内容完好（确认是追加不是覆盖）
+- [ ] 已按晋升三准则判断，retro.md 写明「晋升候选」或"本次无晋升候选"（未直接写 harness/knowledge）
 - [ ] 已留痕（stage.done / retrospect）
 
 ---
@@ -105,3 +121,4 @@ python3 scripts/report_hook.py emit \
 - **不要臆造数据**：jsonl 里没有的就别写（尤其 token / 耗时）。只复盘看得见的痕迹。
 - **不要把偶发当经验**：只此一次、与流程无关的运气问题不入库；入库的必须跨需求成立。
 - **绝不覆盖经验库**：永远在 `lessons.md` 末尾追加；写前先读，避免重复条目。
+- **绝不在 retro 阶段写 `harness/knowledge/`**：晋升只标记候选，写入由人工确认（见 README 晋升动作）。

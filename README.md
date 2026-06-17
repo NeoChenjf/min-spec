@@ -64,6 +64,7 @@ python3 scripts/gate.py
 | `harness/gate-card.schema.json` | 门禁结论卡结构契约 |
 | `harness/reporting-hooks.json` | 轻量 hook 注册表 |
 | `harness/plan-note-template.md` | 历史模板，可参考 |
+| `harness/knowledge/` | 分层知识库：L1 跨阶段原则 + L2 阶段操作规则（随模板分发，子 Agent 开工前读） |
 | `skill/clarify/SKILL.md` | clarify 阶段执行指令 |
 | `skill/impl-plan/SKILL.md` | plan 阶段执行指令 |
 | `skill/impl/SKILL.md` | build 阶段 Phase 编码（子 Agent） |

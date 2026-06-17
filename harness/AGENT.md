@@ -44,13 +44,15 @@ your-project/
 │   ├── orchestrator.md    ← ★ 主 Agent 合同，从这里开始
 │   ├── spec.md            ← 原则层宪法（只读）
 │   ├── plan-note-template.md  ← 历史模板，可参考
-│   └── workflow-dag.json  ← 阶段 DAG 定义
+│   ├── workflow-dag.json  ← 阶段 DAG 定义
+│   └── knowledge/         ← 分层知识库（L1 原则 / L2 阶段规则，随模板分发）
 │
 ├── skill/                 ← 按阶段加载的执行指令
 │   ├── clarify/SKILL.md   ← Stage 1：需求澄清
 │   ├── impl-plan/SKILL.md ← Stage 2：拆步骤
 │   ├── impl/SKILL.md      ← Stage 3：Phase 编码（子 Agent）
-│   └── review/SKILL.md    ← Stage 3：Phase 评审（独立子 Agent）
+│   ├── review/SKILL.md    ← Stage 3：Phase 评审（独立子 Agent）
+│   └── retro/SKILL.md     ← Stage 5：复盘沉淀
 │
 ├── scripts/               ← 门禁/留痕工具（只读，不要改）
 │   ├── gate.py            ← 门禁执行器
@@ -65,6 +67,8 @@ your-project/
 └── docs/meta/
     ├── gates/             ← gate card 落点
     ├── sessions/          ← 留痕 JSONL 落点
+    ├── retro/             ← retro card 落点（复盘）
+    ├── knowledge/         ← lessons.md 经验库（运行时沉淀，不随模板分发）
     └── requirements/      ← clarification + impl-plan 落点
 ```
 
