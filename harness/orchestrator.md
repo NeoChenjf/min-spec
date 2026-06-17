@@ -6,7 +6,7 @@
 
 ---
 
-## 四阶段总览
+## 五阶段总览
 
 | 阶段 | 触发词 | 调度 Skill | 输入 | 产出 | 人审 |
 |---|---|---|---|---|---|
@@ -14,6 +14,7 @@
 | Stage 2 plan | 「拆步骤」「实现计划」 | `skill/impl-plan/SKILL.md` → spawn review | `clarification.md` | `{run_id}-impl-plan.md` | **强制** |
 | Stage 3 build | 「开始开发」「coding」 | 每个 Phase：spawn impl → spawn review → fix | `impl-plan.md` | 代码 + commit | 每 Phase review |
 | Stage 4 verify | 「跑门禁」「verify」 | `python3 scripts/gate.py` | 代码 | gate card | **强制** |
+| Stage 5 retrospect | 「复盘」「沉淀」「retro」 | `skill/retro/SKILL.md` | 本次留痕+产物 | `{run_id}-retro.md` + 经验库 | 建议 |
 
 **run_id 约定**：用 `YYYYMMDD-HHMMSS` 或需求编号（如 `task-42`），整个流程保持同一个值。
 
@@ -26,10 +27,11 @@
 - 「拆步骤」「实现计划」「plan」→ Stage 2
 - 「开始开发」「开始实现」「coding」→ Stage 3
 - 「跑门禁」「verify」「gate」→ Stage 4
-- 「全流程」「端到端」「从头开始」→ 从 Stage 1 顺序执行
+- 「复盘」「沉淀」「retro」「反哺」→ Stage 5
+- 「全流程」「端到端」「从头开始」→ 从 Stage 1 顺序执行到 Stage 5
 
 无法判断时，只问一个问题：  
-「你要从哪个阶段开始？需求澄清 / 拆步骤 / 开始开发 / 跑门禁」
+「你要从哪个阶段开始？需求澄清 / 拆步骤 / 开始开发 / 跑门禁 / 复盘沉淀」
 
 ---
 
@@ -124,6 +126,26 @@
 缺失时输出：  
 `⚠️ 缺少 {文件}，请先执行 Stage {N}。`
 
+### 开发分支约定（编码前必须先切分支）
+
+进入 Phase 循环、动任何代码**之前**，先确认并切到目标 feature 分支。未切分支前不得修改代码。
+
+分支名（语言无关）：
+
+```text
+feature-{run_id}-{slug}
+```
+
+- `{run_id}`：本次交付的 run_id
+- `{slug}`：需求关键词，2-4 个英文短词、kebab-case（如 `order-refund`）
+
+操作流程：
+1. 若当前已在某个 `feature-{run_id}-*` 分支上 → 直接复用，不重复创建。
+2. 否则从主干（`master` 或 `main`）切新分支：`git checkout -b feature-{run_id}-{slug}`
+3. 确认切换成功、输出当前分支名，再进入 Phase 循环。
+
+这样每次需求的所有 Phase commit 都落在独立 feature 分支上，主干始终干净、可随时丢弃整条分支回滚。
+
 ### 执行：Phase 循环
 
 解析 `impl-plan.md`，获取 Phase 列表。对每个 Phase 按顺序执行以下循环：
@@ -171,7 +193,7 @@
 
 - **✅ 通过** → 执行 3.4（commit）
 - **❌ 不通过（有 P0 问题）** → 执行 fix 循环（最多 2 次）：
-  - spawn fix agent（独立上下文），传入完整评审报告，按 P0 清单修复
+  - spawn fix agent（独立上下文），传入完整评审报告，**逐项按 P0 清单修复，不顺手扩展、不夹带计划外改动**
   - 重跑验证命令
   - 重新 spawn review agent
   - 2 次仍不通过 → 停止，告知用户人工介入
@@ -206,13 +228,14 @@ python3 scripts/report_hook.py emit \
 ### 完成汇报
 ```
 【Stage 3 完成】
-1) 完成 Phase：{N} 个
-2) Commit 列表：
+1) 开发分支：feature-{run_id}-{slug}
+2) 完成 Phase：{N} 个
+3) Commit 列表：
    - {hash0}: Phase 0 - {里程碑}
    - {hash1}: Phase 1 - {里程碑}
-3) 修复轮次：{总修复次数}
-4) 待确认：{如有遗留问题则列出，没有则写"无"}
-5) 下一步：建议执行 Stage 4（跑门禁）
+4) 修复轮次：{总修复次数}
+5) 待确认：{如有遗留问题则列出，没有则写"无"}
+6) 下一步：建议执行 Stage 4（跑门禁）
 ```
 
 ---
@@ -245,7 +268,37 @@ cat docs/meta/gates/{run_id}-gate.md
 2) Decision：pass
 3) 门禁详情：build={status} test={status} lint={status}
 4) 待确认：无
-5) 全流程完成 🎉
+5) 下一步：建议执行 Stage 5（复盘沉淀），把本次经验反哺下一次交付
+```
+
+---
+
+## Stage 5：交付复盘沉淀
+
+> 这是流程最后一环，把"只写不读"的留痕（jsonl / gate card / 各产物）消化成经验，反哺下次。
+> 性质是**沉淀，不是返工**：只读 + 追加，不改代码、不动正式产物。
+
+### 前置检查
+- `docs/meta/gates/{run_id}-gate.md` 存在（即 Stage 4 已出门禁结论）
+
+缺失时输出：  
+`⚠️ 缺少 gate card，请先执行 Stage 4（跑门禁）。`
+
+### 执行
+1. 读取 `skill/retro/SKILL.md`
+2. 按 skill 执行：收齐本次 `{run_id}` 的 jsonl + gate + clarification + impl-plan
+   → 提炼三类信号（澄清/返工回环、spec 漂移、门禁卡点）
+   → 产出 `docs/meta/retro/{run_id}-retro.md`
+   → 把可复用经验**追加**进 `docs/meta/knowledge/lessons.md`（只追加不覆盖）
+3. **建议用户过目 retro**（recommended review，不阻塞；用户可跳过）
+
+### 完成汇报
+```
+【Stage 5 完成】
+1) 复盘报告：docs/meta/retro/{run_id}-retro.md
+2) 新增经验：{N} 条已沉淀进 docs/meta/knowledge/lessons.md（无则写"本次无新增经验"）
+3) 关键教训：{一句话最值得带到下次的}
+4) 全流程完成 🎉
 ```
 
 ---
@@ -269,3 +322,4 @@ cat docs/meta/gates/{run_id}-gate.md
 3. **有 P0 问题不推进**：review 发现 P0 必须修复后才能 commit
 4. **两个强制人审点**：clarification 确认 + impl-plan 确认，不可跳过
 5. **非阻塞留痕**：留痕失败不影响主流程
+6. **复盘只沉淀不返工**：Stage 5 只读留痕 + 追加经验库，绝不改代码或正式产物；经验库只追加不覆盖

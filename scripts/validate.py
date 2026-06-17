@@ -35,6 +35,7 @@ REQUIRED_FILES = [
     "skill/impl-plan/SKILL.md",
     "skill/impl/SKILL.md",
     "skill/review/SKILL.md",
+    "skill/retro/SKILL.md",
     "scripts/gate.py",
     "scripts/detect.py",
     "scripts/report_hook.py",

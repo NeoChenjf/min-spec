@@ -12,16 +12,17 @@
 
 比喻：本文件是**交通法**（"红灯停"永远成立），`project.toml` 是**这条路口的信号灯配时表**（每个路口不同），`gate.py` 是**只认红绿灯不认路名的司机**。换城市（换语言）只换配时表，法和司机都不动。
 
-## 二、四阶段工作流
+## 二、五阶段工作流
 
-完整定义见 `harness/workflow-dag.json`。一次开发按 `plan → build → verify → report` 推进：
+完整定义见 `harness/workflow-dag.json`。一次开发按 `clarify → plan → build → verify → retrospect` 推进：
 
 | 阶段 | 做什么 | 人审 | 产物 |
 |---|---|---|---|
-| **plan** | 理解需求、定方案 | **强制人审** | plan_note + JSONL 留痕 |
-| **build** | 写代码 | 自动放行 | changeset + JSONL 留痕 |
+| **clarify** | 多轮澄清需求、不假设，定影响面与验收标准 | **强制人审** | clarification + JSONL 留痕 |
+| **plan** | 定方案、拆 Phase（+ 独立评审） | **强制人审** | impl-plan + JSONL 留痕 |
+| **build** | 每 Phase：写码 → 独立评审 → 修复 → commit | 每 Phase review | changeset + JSONL 留痕 |
 | **verify** | 跑门禁（build/test/lint 全过） | **强制人审** | gate card + JSONL 留痕 |
-| **report** | 小结 | 产物审 | summary + JSONL 留痕 |
+| **retrospect** | 回读留痕+产物，提炼经验、沉淀经验库反哺下次 | 建议人审 | retro card + lessons + JSONL 留痕 |
 
 ## 三、门禁原则（唯一会挡你的东西）
 
@@ -80,8 +81,9 @@ python3 scripts/gate.py
     [ ] gate card decision=pass
     [ ] ⚠️  mandatory_review：用户确认 gate card
 
-[ ] report 阶段
-    [ ] 输出 summary（做了什么 / 改了哪些文件 / gate 结论）
+[ ] retrospect 阶段
+    [ ] 回读本次 jsonl 留痕 + gate card + 产物（按 skill/retro/SKILL.md）
+    [ ] 产出 retro card，把可复用经验追加进 docs/meta/knowledge/lessons.md（只追加不覆盖）
     [ ] git commit（pre-commit hook 自动再跑一次门禁）
 ```
 

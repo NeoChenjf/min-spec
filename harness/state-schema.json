@@ -5,7 +5,7 @@
   "properties": {
     "run_id": { "type": "string" },
     "status": { "enum": ["initialized", "running", "blocked", "completed", "failed"] },
-    "current_stage": { "enum": ["clarify", "plan", "build", "verify"] },
+    "current_stage": { "enum": ["clarify", "plan", "build", "verify", "retrospect"] },
     "stages": { "type": "object" },
     "gate": {
       "type": ["object", "null"],

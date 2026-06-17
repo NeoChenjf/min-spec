@@ -29,11 +29,23 @@
     },
     "verify": {
       "name": "门禁验证",
-      "next": [],
+      "next": ["retrospect"],
       "checkpoint": "mandatory_review",
       "required_outputs": ["gate_card"],
       "writes": [
         "docs/meta/gates/{run_id}-gate.md",
+        "docs/meta/sessions/{run_id}.jsonl"
+      ]
+    },
+    "retrospect": {
+      "name": "交付复盘沉淀",
+      "next": [],
+      "checkpoint": "recommended_review",
+      "required_outputs": ["retro"],
+      "skill": "skill/retro/SKILL.md",
+      "writes": [
+        "docs/meta/retro/{run_id}-retro.md",
+        "docs/meta/knowledge/lessons.md",
         "docs/meta/sessions/{run_id}.jsonl"
       ]
     }

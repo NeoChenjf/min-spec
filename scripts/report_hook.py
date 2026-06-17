@@ -161,7 +161,7 @@ def add_emit_parser(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--source", default="manual", help="来源")
     p.add_argument("--status", default="completed", help="状态，例如 pass/fail/completed")
     p.add_argument("--run-id", default="", help="运行 ID，缺省取 $MINSPEC_RUN_ID 或 min-spec")
-    p.add_argument("--phase", default="", help="阶段名 plan/build/verify/report")
+    p.add_argument("--phase", default="", help="阶段名 clarify/plan/build/verify/retrospect")
     p.add_argument("--tags", default="", help="逗号分隔标签")
     p.add_argument("--evidence", action="append", default=[], help="证据路径或摘要，可重复")
     p.add_argument("--metadata", action="append", default=[], help="元数据 key=value，可重复")
